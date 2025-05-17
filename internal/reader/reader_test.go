@@ -135,6 +135,51 @@ func TestFileReader(t *testing.T) {
 	})
 }
 
+func TestSequentialReads(t *testing.T) {
+	tempDir := t.TempDir()
+	content := []string{"1", "2", "3", "4", "5", "6"}
+	path := createTestFile(t, tempDir, "sequential.txt", content)
+
+	reader, err := New(path)
+	if err != nil {
+		t.Fatalf("Failed to create reader: %v", err)
+	}
+	defer reader.Close()
+
+	// First read should get first two numbers
+	batch1, err := reader.Read(2)
+	if err != nil {
+		t.Fatalf("First read failed: %v", err)
+	}
+	if !sliceEqual(batch1, []int{1, 2}) {
+		t.Errorf("First batch = %v, want [1 2]", batch1)
+	}
+
+	// Second read should get next two numbers
+	batch2, err := reader.Read(2)
+	if err != nil {
+		t.Fatalf("Second read failed: %v", err)
+	}
+	if !sliceEqual(batch2, []int{3, 4}) {
+		t.Errorf("Second batch = %v, want [3 4]", batch2)
+	}
+
+	// Third read should get last two numbers
+	batch3, err := reader.Read(2)
+	if err != nil {
+		t.Fatalf("Third read failed: %v", err)
+	}
+	if !sliceEqual(batch3, []int{5, 6}) {
+		t.Errorf("Third batch = %v, want [5 6]", batch3)
+	}
+
+	// Fourth read should return nil, nil (EOF)
+	batch4, err := reader.Read(2)
+	if err != nil || batch4 != nil {
+		t.Errorf("Expected EOF (nil, nil), got (%v, %v)", batch4, err)
+	}
+}
+
 func createTestFile(t *testing.T, dir, name string, content []string) string {
 	t.Helper()
 	path := filepath.Join(dir, name)
