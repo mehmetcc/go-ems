@@ -11,11 +11,11 @@ run:
 	@echo "Running..."
 	go run ./cmd/main.go
 
-# Clean build artifacts and coverage reports
+# Clean build artifacts, coverage reports, and output files
 clean:
 	@echo "Cleaning..."
 	go clean
-	rm -rf bin/ coverage/
+	rm -rf bin/ coverage/ output/
 
 # Run tests
 test:

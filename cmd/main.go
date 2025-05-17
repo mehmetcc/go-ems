@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/mehmetcc/go-ems/internal/config"
 	"github.com/mehmetcc/go-ems/internal/reader"
+	"github.com/mehmetcc/go-ems/internal/writer"
 )
 
 func main() {
@@ -20,6 +20,11 @@ func main() {
 	}
 	defer fileReader.Close()
 
+	fileWriter, err := writer.New("output")
+	if err != nil {
+		panic(err)
+	}
+
 	count := 0
 
 	for {
@@ -31,8 +36,7 @@ func main() {
 			break
 		}
 
+		fileWriter.Write(count, batch)
 		count++
 	}
-
-	fmt.Printf("Read %d batches\n", count)
 }
