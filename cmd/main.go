@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"sort"
 
 	"github.com/mehmetcc/go-ems/internal/config"
 	"github.com/mehmetcc/go-ems/internal/reader"
@@ -36,7 +37,10 @@ func main() {
 			break
 		}
 
-		fileWriter.Write(count, batch)
+		sort.Ints(batch)
+		if err := fileWriter.Write(count, batch); err != nil {
+			log.Fatalf("Error writing batch %d: %v", count, err)
+		}
 		count++
 	}
 }
