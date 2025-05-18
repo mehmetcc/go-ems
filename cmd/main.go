@@ -15,13 +15,13 @@ func main() {
 		panic(err)
 	}
 
-	fileReader, err := reader.New("input.txt")
+	fileReader, err := reader.New(config.Application.InputPath)
 	if err != nil {
 		log.Fatalf("Failed to create reader: %v", err)
 	}
 	defer fileReader.Close()
 
-	fileWriter, err := writer.New("output")
+	fileWriter, err := writer.New(config.Application.TemporaryFileDirectory)
 	if err != nil {
 		panic(err)
 	}

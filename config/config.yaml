@@ -1,2 +1,5 @@
 application:
   batch-size: 10000
+  input-path: input.txt
+  output-path: output.txt
+  temporary-file-directory: tmp

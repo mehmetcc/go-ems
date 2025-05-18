@@ -15,7 +15,7 @@ run:
 clean:
 	@echo "Cleaning..."
 	go clean
-	rm -rf bin/ coverage/ output/
+	rm -rf bin/ coverage/ tmp/
 
 # Run tests
 test:

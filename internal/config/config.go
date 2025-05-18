@@ -11,7 +11,10 @@ type Config struct {
 }
 
 type ApplicationConfig struct {
-	BatchSize int `mapstructure:"batch-size"`
+	BatchSize              int    `mapstructure:"batch-size"`
+	InputPath              string `mapstructure:"input-path"`
+	OutputPath             string `mapstructure:"output-path"`
+	TemporaryFileDirectory string `mapstructure:"temporary-file-directory"`
 }
 
 func LoadConfig() (*Config, error) {
